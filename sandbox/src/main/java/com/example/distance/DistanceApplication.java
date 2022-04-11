@@ -1,12 +1,12 @@
 package com.example.distance;
 
 import com.example.distance.models.Point;
-import org.springframework.boot.SpringApplication;
+//import org.springframework.boot.SpringApplication;
 
 public class DistanceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DistanceApplication.class, args);
+        //SpringApplication.run(DistanceApplication.class, args);
         Point p1= new Point();
         Point p2 = new Point();
         double dist;
