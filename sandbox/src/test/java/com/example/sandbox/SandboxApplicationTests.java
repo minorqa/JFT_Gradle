@@ -1,13 +1,18 @@
 package com.example.sandbox;
 
 import com.example.distance.models.Point;
-import com.example.distance.models.PythagoreanTriplet;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static com.example.distance.DistanceApplication.distance;
 import static com.example.distance.DistanceApplication.setCoordinates;
 import static com.example.sandbox.TestBase.logBusiness;
+import static org.testng.internal.collections.Ints.asList;
 
 public class SandboxApplicationTests {
 
@@ -16,44 +21,38 @@ public class SandboxApplicationTests {
     public Object[][] distanceTestDataProvider(){
         return new Object[][]{
                 {
-                    PythagoreanTriplet.builder()
-                            .cathetus_1(3).cathetus_2(4).expectedHypotenuse(5).build()
+                        asList(3,4,5)
                 },
                 {
-                    PythagoreanTriplet.builder()
-                            .cathetus_1(5).cathetus_2(12).expectedHypotenuse(13).build()
+                        asList(5,12,13)
                 },
                 {
-                    PythagoreanTriplet.builder()
-                            .cathetus_1(8).cathetus_2(15).expectedHypotenuse(17).build()
+                        asList(8,15,17)
                 },
                 {
-                    PythagoreanTriplet.builder()
-                            .cathetus_1(7).cathetus_2(24).expectedHypotenuse(25).build()
+                        asList(7,24,25)
                 },
                 {
-                    PythagoreanTriplet.builder()
-                            .cathetus_1(36).cathetus_2(77).expectedHypotenuse(85).build()
+                        asList(36,77,85)
                 },
                 {
-                    PythagoreanTriplet.builder()
-                            .cathetus_1(65).cathetus_2(72).expectedHypotenuse(97).build()
+                        asList(65,72,97)
                 }
         };
     }
 
     @Test(dataProvider = "distanceTestDataProvider", groups = {"P0, Sandbox.FUNC"})
-    public void distanceTest(PythagoreanTriplet pythagoreanTriplet) {
-        logBusiness(">>> 1. Comparing calculated hypotenuse length with value from Pythagorean triplet["+pythagoreanTriplet.cathetus_1+ ", " + pythagoreanTriplet.cathetus_2 + ", " + pythagoreanTriplet.expectedHypotenuse +"]");
+    public void distanceTest(ArrayList<Integer> pythagoreanTriplet) {
+        logBusiness(">>> 1. Comparing calculated hypotenuse length with value from Pythagorean triplet["+pythagoreanTriplet.get(0)+ ", " + pythagoreanTriplet.get(1) + ", " + pythagoreanTriplet.get(2) +"]");
         verifyPythagoreanTriplet(pythagoreanTriplet);
     }
 
-    public void verifyPythagoreanTriplet(PythagoreanTriplet pythagoreanTriplet){
+    public void verifyPythagoreanTriplet(ArrayList<Integer> pythagoreanTriplet){
         Point p1= new Point();
         Point p2 = new Point();
 
-        setCoordinates(p1, 0, pythagoreanTriplet.cathetus_1);
-        setCoordinates(p2, pythagoreanTriplet.cathetus_2, 0);
-        Assert.assertEquals(distance(p1, p2), pythagoreanTriplet.expectedHypotenuse, "Pythagorean Triplet is not verified.");
+        setCoordinates(p1, 0, Double.valueOf(pythagoreanTriplet.get(0)));
+        setCoordinates(p2, Double.valueOf(pythagoreanTriplet.get(1)), 0);
+        Assert.assertEquals(distance(p1, p2), Double.valueOf(pythagoreanTriplet.get(2)), "Pythagorean Triplet is not verified.");
     }
 }
